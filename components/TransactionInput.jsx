@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, View, TextInput, Text, StyleSheet, Pressable, Button } from 'react-native'
+import { Modal, View, TextInput, Text, StyleSheet, Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { useState } from 'react'
 
 import { LinearGradient } from 'expo-linear-gradient'
@@ -45,47 +45,50 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     <Modal animationType={'slide'} transparent={true}
       visible={showModalTransaction}
       onRequestClose={() => setshowModalTransaction(!showModalTransaction)}>
-      <View style={styles.productInput}>
+      <TouchableWithoutFeedback sytle={styles.modal} onPress={Keyboard.dismiss} >
+        <View style={styles.productInput}>
 
-        <View style={styles.typeOfTransaction}>
-          <Pressable style={styles.typeOfTransactionButtonIncome}>
-            <Text style={styles.typeOfTransactionText}>Income</Text>
-          </Pressable>
-          <Pressable style={styles.typeOfTransactionButtonExpense}>
-            <Text style={styles.typeOfTransactionText}>Expense</Text>
-          </Pressable>
+          <View style={styles.typeOfTransaction}>
+            <Pressable style={styles.typeOfTransactionButtonIncome}>
+              <Text style={styles.typeOfTransactionText}>Income</Text>
+            </Pressable>
+            <Pressable style={styles.typeOfTransactionButtonExpense}>
+              <Text style={styles.typeOfTransactionText}>Expense</Text>
+            </Pressable>
+          </View>
+
+          <TextInput style={styles.transactionInputStyle}
+            placeholder="Transaction"
+            keyboardType='default'
+
+            onChangeText={changeTransactionDescriptionHandler}
+            value={transactionObj.description}
+          />
+
+          <TextInput style={styles.transactionInputStyle}
+            placeholder="Amount"
+            keyboardType='numbers-and-punctuation'
+
+            onChangeText={changeTransactionAmountHandler}
+            value={transactionObj.amount}
+          />
+
+          <View style={styles.addTransactionButton}>
+
+            <Pressable title="Add transaction" onPress={addTransactionHandler}>
+              <Text>ADD</Text>
+            </Pressable>
+
+            <Pressable title="Cancel" onPress={cancelModalTransaction}>
+              <Text>CANCEL</Text>
+            </Pressable>
+
+          </View>
+
         </View>
-
-        <TextInput style={styles.transactionInputStyle}
-          placeholder="Transaction"
-          keyboardType='default'
-
-          onChangeText={changeTransactionDescriptionHandler}
-          value={transactionObj.description}
-        />
-
-        <TextInput style={styles.transactionInputStyle}
-          placeholder="Amount"
-          keyboardType='numbers-and-punctuation'
-
-          onChangeText={changeTransactionAmountHandler}
-          value={transactionObj.amount}
-        />
-
-        <View style={styles.addTransactionButton}>
-
-          <Pressable title="Add transaction" onPress={addTransactionHandler}>
-            <Text>ADD</Text>
-          </Pressable>
-
-          <Pressable title="Cancel" onPress={cancelModalTransaction}>
-            <Text>CANCEL</Text>
-          </Pressable>
-
-        </View>
-
-      </View>
+      </TouchableWithoutFeedback>
     </Modal>
+
   )
 }
 
