@@ -1,9 +1,10 @@
 import React from 'react'
-import { Modal, View, TextInput, Text, StyleSheet, Pressable, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { Modal, View, TextInput, Text, StyleSheet, Pressable, Keyboard, TouchableWithoutFeedback, Button } from 'react-native'
 import { useState } from 'react'
 
 import { LinearGradient } from 'expo-linear-gradient'
 import uuid from 'react-native-uuid'
+import DatePicker from 'react-native-modern-datepicker'
 
 // <LinearGradient
 //         colors={['#5851DB', '#C13584', '#E1306C', '#5851DB', 'dark-blue']}
@@ -25,14 +26,17 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     setTransactionObj({ ...transactionObj, amount: enteredText })
   }
 
+  const changeDateTransactionHandler = (enteredDate) => {
+    setTransactionObj({ ...transactionObj, date: enteredDate })
+  }
+
   const addTransactionHandler = () => {
     const sanitizedDescription = transactionObj.description.trim()
     const sanitizedAmount = transactionObj.amount.trim()
-    if (sanitizedDescription.length === 0 || sanitizedAmount.length === 0) {
-      return
-    }
+    const sanitizedDate = transactionObj.date.trim()
+    if (sanitizedDescription.length === 0 || sanitizedAmount.length === 0 || sanitizedDate.length === 0) return
     onTransactionAdd(sanitizedDescription, sanitizedAmount)
-    setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: new Date(), type: '' })
+    setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: '', type: '' })
     setshowModalTransaction(false)
   }
 
@@ -40,6 +44,24 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     setshowModalTransaction(!showModalTransaction)
     setTransactionObj({ id: '', description: '', amount: '', date: '', type: '' })
   }
+
+  // date picker
+  const [selectedDate, setSelectedDate] = useState('');
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date) => {
+    hideDatePicker();
+  };
+
+
 
   return (
     <Modal animationType={'slide'} transparent={true}
@@ -72,6 +94,27 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
             onChangeText={changeTransactionAmountHandler}
             value={transactionObj.amount}
           />
+
+          {selectedDate && <Text style={styles.dateSelectedText}>Selected date: {selectedDate}</Text>}
+
+          <Button title="Show Date Picker" onPress={showDatePicker} />
+
+          <Modal animationType={'fade'} transparent={true}
+            visible={isDatePickerVisible}
+            onRequestClose={() => setDatePickerVisibility(!isDatePickerVisible)}>
+            <View style={styles.datePicker} >
+
+              <DatePicker
+                mode="calendar"
+                onSelectedChange={selectedDate => setSelectedDate(selectedDate)}
+                onDateChange={changeDateTransactionHandler}
+                value={transactionObj.date}
+                style={{ width: 320, height: 300, borderRadius: 10 }}
+              />
+              {selectedDate && <Text style={styles.dateSelectedText}>Selected date: {selectedDate}</Text>}
+              <Button title="Hide Date Picker" onPress={hideDatePicker} />
+            </View>
+          </Modal>
 
           <View style={styles.addTransactionButton}>
 
@@ -116,6 +159,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '60%',
+    padding: 20,
   },
   typeOfTransaction: {
     flexDirection: 'row',
@@ -143,6 +187,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
   },
+  datePicker: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 5,
+  },
+  dateSelectedText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'white',
+    padding: 10,
+  },
+
 });
 
 export default TransactionInput

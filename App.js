@@ -48,7 +48,7 @@ export default function App() {
     id: uuid.v4(),
     description: '',
     amount: 0,
-    date: new Date(),
+    date: '',
     type: '',
   }
 
@@ -65,8 +65,8 @@ export default function App() {
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
 
-  console.log(transactions);
-  console.log(transactionObj.description);
+  console.log(transactionObj.date);
+  console.log(transactions)
 
   return (
     <View style={styles.container}>
