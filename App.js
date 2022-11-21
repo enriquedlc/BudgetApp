@@ -12,10 +12,10 @@ import uuid from 'react-native-uuid';
 
 //✅ fix the colocation of trashcan and edit button
 
-// ********** set the transaction expense or income
-// install uuid.v4 for id
-// set the date for the transaction in the format of dd/mm/yyyy with the date picker or component
-// COMMIT the code to github
+//✅ set the transaction expense or income
+//✅ install uuid.v4 for id
+//✅ set the date for the transaction in the format of dd/mm/yyyy with the date picker or component
+//✅ COMMIT the code to github
 
 // show the economic status of the user. red if the user is in debt, green if the user is in profit
 // COMMIT the code to github
@@ -23,7 +23,7 @@ import uuid from 'react-native-uuid';
 // alerts for the user to enter the amount and the description when empty show alert
 // COMMIT the code to github
 
-// dissmiss the keyboard when the user click on the screen
+//✅ dissmiss the keyboard when the user click on the screen
 // COMMIT the code to github
 
 // ******* if its possible when the user slide the item to the left show the edit and delete button
@@ -33,6 +33,8 @@ import uuid from 'react-native-uuid';
 
 // make the item a pressble when pressed show the info of the transaction
 // COMMIT the code to github
+
+// ******* button animation income and expense when pressed
 
 // ********* no changes until app is finished
 

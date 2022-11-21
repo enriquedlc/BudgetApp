@@ -17,7 +17,7 @@ import DatePicker from 'react-native-modern-datepicker'
 
 const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTransactionAdd, transactionObj, setTransactionObj }) => {
 
-// object handler
+  // object handler
   const changeTransactionDescriptionHandler = (enteredText) => {
     setTransactionObj({ ...transactionObj, description: enteredText })
   }
@@ -30,7 +30,18 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     setTransactionObj({ ...transactionObj, date: enteredDate })
   }
 
-// transaction handler
+  const changeTransactionTypeHandlerIncome = () => {
+    setTransactionObj({ ...transactionObj, type: 'Income' })
+  }
+
+  const changeTransactionTypeHandlerExpense = () => {
+    setTransactionObj({ ...transactionObj, type: 'Expense' })
+  }
+
+  // if income is selected, keep the amount positive 
+  // if expense is selected, the amount changes to negative
+
+  // transaction handler
   const addTransactionHandler = () => {
     const sanitizedDescription = transactionObj.description.trim()
     const sanitizedAmount = transactionObj.amount.trim()
@@ -68,10 +79,10 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
         <View style={styles.productInput}>
 
           <View style={styles.typeOfTransaction}>
-            <Pressable style={styles.typeOfTransactionButtonIncome}>
+            <Pressable style={styles.typeOfTransactionButtonIncome} onPress={changeTransactionTypeHandlerIncome}>
               <Text style={styles.typeOfTransactionText}>Income</Text>
             </Pressable>
-            <Pressable style={styles.typeOfTransactionButtonExpense}>
+            <Pressable style={styles.typeOfTransactionButtonExpense} onPress={changeTransactionTypeHandlerExpense}>
               <Text style={styles.typeOfTransactionText}>Expense</Text>
             </Pressable>
           </View>
