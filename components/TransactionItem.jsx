@@ -1,10 +1,13 @@
 import React from 'react'
 import { Image, View, Pressable, Text, StyleSheet } from 'react-native'
 
-const TransactionItem = () => {
+const TransactionItem = (transactionObj) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>TransactionItem 1</Text>
+      <View style={styles.transactionDesc}>
+        <Text style={styles.descriptionText}>Description: {transactionObj.description}</Text>
+        <Text style={styles.descriptionText}>Amount: {transactionObj.amount}</Text>
+      </View>
       <View style={styles.buttonContainerEdit}>
         <Pressable>
           <Image style={styles.editButton} source={require('../assets/appAssets/escritura.png')} />
@@ -28,24 +31,26 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 70,
     padding: 10,
+    marginBottom: 10,
   },
-  title: {
-    fontSize: 10,
+  descriptionText: {
+    flexDirection: 'column',
+    fontSize: 12,
     fontWeight: 'bold',
-    width: '65%',
+    width: '100%',
   },
   buttonContainerEdit: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '10%',
+    width: '12%',
     paddingBottom: 30,
   },
   buttonContainerDelete: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '10%',
+    width: '15%',
     paddingBottom: 30,
   },
   editButton: {
@@ -59,6 +64,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: 40,
     height: 40,
+  },
+  transactionDesc: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '70%',
+    marginLeft: 10,
   },
 
 });

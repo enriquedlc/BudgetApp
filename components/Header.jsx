@@ -1,6 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
+// delete item function here
+// edit item function here
+
 const Header = () => {
     return (
         <View style={styles.header}>
