@@ -17,7 +17,7 @@ import DatePicker from 'react-native-modern-datepicker'
 
 const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTransactionAdd, transactionObj, setTransactionObj }) => {
 
-
+// object handler
   const changeTransactionDescriptionHandler = (enteredText) => {
     setTransactionObj({ ...transactionObj, description: enteredText })
   }
@@ -30,11 +30,14 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     setTransactionObj({ ...transactionObj, date: enteredDate })
   }
 
+// transaction handler
   const addTransactionHandler = () => {
     const sanitizedDescription = transactionObj.description.trim()
     const sanitizedAmount = transactionObj.amount.trim()
     const sanitizedDate = transactionObj.date.trim()
-    if (sanitizedDescription.length === 0 || sanitizedAmount.length === 0 || sanitizedDate.length === 0) return
+    if (sanitizedDescription.length === 0 || sanitizedAmount.length === 0 || sanitizedDate.length === 0) {
+      return
+    }
     onTransactionAdd(sanitizedDescription, sanitizedAmount)
     setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: '', type: '' })
     setshowModalTransaction(false)
@@ -42,7 +45,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
 
   const cancelModalTransaction = () => {
     setshowModalTransaction(!showModalTransaction)
-    setTransactionObj({ id: '', description: '', amount: '', date: '', type: '' })
+    setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: '', type: '' })
   }
 
   // date picker
@@ -56,12 +59,6 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
-
-  const handleConfirm = (date) => {
-    hideDatePicker();
-  };
-
-
 
   return (
     <Modal animationType={'slide'} transparent={true}
