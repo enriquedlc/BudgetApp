@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image, Pressable, FlatList } from 'react-native';
+import { StyleSheet, View, Image, Pressable, FlatList, Text } from 'react-native';
 import { useState } from 'react';
 
 import Header from './components/Header';
@@ -38,13 +38,11 @@ import uuid from 'react-native-uuid';
 
 // ********* no changes until app is finished
 
-
-
 export default function App() {
 
   const [transactions, setTransactions] = useState([]);
-
   const [showModalTransaction, setshowModalTransaction] = useState(false);
+  const [totalBalance, setTotalBalance] = useState(0);
 
   const transactionObject = {
     id: uuid.v4(),
@@ -67,13 +65,16 @@ export default function App() {
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
 
-  console.log(transactionObj.date);
   console.log(transactions)
 
   return (
     <View style={styles.container}>
       <Header />
       <View style={styles.body}>
+        <View style={styles.economicBalanceBox} >
+          <Image source={require('./assets/appAssets/balance.png')} style={styles.balance} />
+          <Text style={styles.economicBalanceText}>Economic Balance: {totalBalance}</Text>
+        </View>
         <FlatList
           data={transactions}
           renderItem={(transactionData) => {
@@ -96,6 +97,9 @@ export default function App() {
           transactionObject={transactionObject}
           transactionObj={transactionObj}
           setTransactionObj={setTransactionObj}
+
+          totalBalance={totalBalance}
+          setTotalBalance={setTotalBalance}
 
         />
         <Pressable style={styles.buttonStyle} onPress={() => setshowModalTransaction(true)} >
@@ -139,5 +143,25 @@ const styles = StyleSheet.create({
   buttonImage: {
     width: 30,
     height: 30,
+  },
+  economicBalanceBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    padding: 15,
+    borderWidth: 1,
+    marginBottom: 10,
+  },
+  balance: {
+    width: 30,
+    height: 30,
+    paddingRight: 10,
+  },
+  economicBalanceText: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: '#000000',
+    paddingLeft: 15,
   },
 });

@@ -15,7 +15,7 @@ import DatePicker from 'react-native-modern-datepicker'
 //         <Text>Horizontal Gradient</Text>
 //       </LinearGradient>
 
-const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTransactionAdd, transactionObj, setTransactionObj }) => {
+const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTransactionAdd, transactionObj, setTransactionObj, totalBalance, setTotalBalance }) => {
 
   // object handler
   const changeTransactionDescriptionHandler = (enteredText) => {
@@ -23,7 +23,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
   }
 
   const changeTransactionAmountHandler = (enteredText) => {
-    setTransactionObj({ ...transactionObj, amount: enteredText })
+    setTransactionObj({ ...transactionObj, amount: parseFloat(enteredText) })
   }
 
   const changeDateTransactionHandler = (enteredDate) => {
@@ -38,18 +38,26 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     setTransactionObj({ ...transactionObj, type: 'Expense' })
   }
 
-  // if income is selected, keep the amount positive 
-  // if expense is selected, the amount changes to negative
+  // add the income or expense to the total balance
+
+  const addIncomeToBalance = () => {
+    if (transactionObj.type === 'Income') {
+      setTotalBalance(parseFloat(totalBalance + transactionObj.amount))
+    } else {
+      setTotalBalance(parseFloat(totalBalance - transactionObj.amount))
+    }
+  }
 
   // transaction handler
   const addTransactionHandler = () => {
     const sanitizedDescription = transactionObj.description.trim()
-    const sanitizedAmount = transactionObj.amount.trim()
+    const sanitizedAmount = transactionObj.amount
     const sanitizedDate = transactionObj.date.trim()
-    if (sanitizedDescription.length === 0 || sanitizedAmount.length === 0 || sanitizedDate.length === 0) {
+    if (sanitizedDescription.length === 0 || sanitizedAmount === 0 || sanitizedDate.length === 0 || transactionObj.type === '') {
       return
     }
-    onTransactionAdd(sanitizedDescription, sanitizedAmount)
+    onTransactionAdd(sanitizedDescription, sanitizedAmount, sanitizedDate, transactionObj.type)
+    addIncomeToBalance()
     setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: '', type: '' })
     setshowModalTransaction(false)
   }
