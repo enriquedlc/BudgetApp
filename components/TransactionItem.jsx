@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     height: 70,
     padding: 10,
     marginBottom: 10,
+    borderRadius: 10,
   },
   descriptionText: {
     flexDirection: 'column',
