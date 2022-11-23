@@ -104,6 +104,7 @@ export default function App() {
               description={transactionData.item.description}
               amount={transactionData.item.amount}
               date={transactionData.item.date}
+              type={transactionData.item.type}
               onTransactionRemove={deleteTransaction}
             />
           }}
