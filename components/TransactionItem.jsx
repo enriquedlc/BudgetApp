@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Image, View, Pressable, Text, StyleSheet, Modal } from 'react-native'
 
-const TransactionItem = ({ transactionId, description, amount, type, date, onTransactionRemove, showModalTransaction, setshowModalTransaction }) => {
+const TransactionItem = ({ transactionId, description, amount, type, date, onTransactionRemove }) => {
 
   const [showModalInfo, setShowModalInfo] = useState(false)
 
@@ -18,7 +18,7 @@ const TransactionItem = ({ transactionId, description, amount, type, date, onTra
       >
         <View style={styles.infoBoxInformation}>
           <Text style={styles.infoBoxText} > Description: {description} </Text>
-          {type === 'Income' ? <Text style={styles.infoBoxText} > Amount: + {amount} </Text> : <Text style={styles.infoBoxText} > Amount: - {amount} </Text>}
+          {type === 'Income' ? <Text style={styles.infoBoxText} > Amount: + {parseFloat(amount)} </Text> : <Text style={styles.infoBoxText} > Amount: - {amount} </Text>}
           <Text style={styles.infoBoxText} > Type: {type} </Text>
           <Text style={styles.infoBoxText} > Date: {date} </Text>
           <Pressable onPress={cancelModalTransaction}>
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     height: 70,
     padding: 10,
     marginBottom: 10,
+    borderRadius: 10,
   },
   descriptionText: {
     flexDirection: 'column',
