@@ -12,7 +12,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
   }
 
   const changeTransactionAmountHandler = (enteredText) => {
-    setTransactionObj({ ...transactionObj, amount: parseFloat(enteredText) })
+    setTransactionObj({ ...transactionObj, amount: parseFloat(enteredText.replace(",", ".")) })
   }
 
   const changeDateTransactionHandler = (enteredDate) => {
@@ -85,6 +85,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
           <TextInput style={styles.transactionInputStyle}
             placeholder="Transaction"
             keyboardType='default'
+            maxLength={70}
 
             onChangeText={changeTransactionDescriptionHandler}
             value={transactionObj.description}
@@ -92,7 +93,8 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
 
           <TextInput style={styles.transactionInputStyle}
             placeholder="Amount"
-            keyboardType='numbers-and-punctuation'
+            keyboardType='numeric'
+            maxLength={10}
 
             onChangeText={changeTransactionAmountHandler}
             value={transactionObj.amount}
