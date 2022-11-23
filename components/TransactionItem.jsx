@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { Image, View, Pressable, Text, StyleSheet } from 'react-native'
 
-const TransactionItem = ({ transactionId, description, amount, date, onTransactionRemove }) => {
+const TransactionItem = ({ transactionId, description, amount, type, onTransactionRemove }) => {
 
   return (
     <View style={styles.container}>
       <View style={styles.transactionDesc}>
         <Text style={styles.descriptionText}>Description: {description}</Text>
-        <Text style={styles.descriptionText}>Amount: {amount}</Text>
+        {type === "Income" ?   <Text style={styles.amountTextIncome}>Amount: +{amount}</Text> : <Text style={styles.amountTextExpense}>Amount: -{amount}</Text>}
       </View>
       <View style={styles.buttonContainerEdit}>
         <Pressable>
@@ -72,6 +72,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '70%',
     marginLeft: 10,
+  },
+  amountTextIncome: {
+    flexDirection: 'column',
+    fontSize: 12,
+    fontWeight: 'bold',
+    width: '100%',
+    color: 'green',
+  },
+  amountTextExpense: {
+    flexDirection: 'column',
+    fontSize: 12,
+    fontWeight: 'bold',
+    width: '100%',
+    color: 'red',
   },
 
 });
