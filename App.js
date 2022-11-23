@@ -24,15 +24,15 @@ import uuid from 'react-native-uuid';
 // COMMIT the code to github
 
 //✅ dissmiss the keyboard when the user click on the screen
-// COMMIT the code to github
+//✅ COMMIT the code to github
 
 // ******* if its possible when the user slide the item to the left show the edit and delete button
 //✅ add the delete button to the transaction item
 // add the edit button to the transaction item
 //✅ COMMIT the code to github
 
-// make the item a pressble when pressed show the info of the transaction
-// COMMIT the code to github
+//✅ make the item a pressble when pressed show the info of the transaction
+//✅ COMMIT the code to github
 
 // ******* button animation income and expense when pressed
 
@@ -75,15 +75,13 @@ export default function App() {
     transactionObject.date = transaction.date;
     transactionObject.type = transaction.type;
 
-    setTransactions(() => [ { id: uuid.v4(), ...transactionObj }, ...transactions]);
+    setTransactions(() => [{ id: uuid.v4(), ...transactionObj }, ...transactions]);
     setshowModalTransaction(false);
   }
 
   const deleteTransaction = (id) => {
     setTransactions(() => transactions.filter((transaction) => transaction.id !== id));
   }
-
-
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
 
@@ -108,6 +106,9 @@ export default function App() {
               date={transactionData.item.date}
               type={transactionData.item.type}
               onTransactionRemove={deleteTransaction}
+
+              showModalTransaction={showModalTransaction}
+              setshowModalTransaction={setshowModalTransaction}
             />
           }}
         >

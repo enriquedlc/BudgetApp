@@ -67,7 +67,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
   };
 
   return (
-    <Modal animationType={'slide'} 
+    <Modal animationType={'slide'}
       visible={showModalTransaction}
       onRequestClose={() => setshowModalTransaction(!showModalTransaction)}>
       <TouchableWithoutFeedback sytle={styles.modal} onPress={Keyboard.dismiss} >
