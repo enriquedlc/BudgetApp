@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, View, Pressable, Text, StyleSheet } from 'react-native'
 
-const TransactionItem = (transactionObj) => {
+const TransactionItem = ({ transactionId, description, amount, date, onTransactionRemove }) => {
+
   return (
     <View style={styles.container}>
       <View style={styles.transactionDesc}>
-        <Text style={styles.descriptionText}>Description: {transactionObj.description}</Text>
-        <Text style={styles.descriptionText}>Amount: {transactionObj.amount}</Text>
+        <Text style={styles.descriptionText}>Description: {description}</Text>
+        <Text style={styles.descriptionText}>Amount: {amount}</Text>
       </View>
       <View style={styles.buttonContainerEdit}>
         <Pressable>
@@ -14,7 +15,7 @@ const TransactionItem = (transactionObj) => {
         </Pressable>
       </View>
       <View style={styles.buttonContainerDelete}>
-        <Pressable>
+        <Pressable onPress={() => onTransactionRemove(transactionId)} >
           <Image style={styles.deleteButton} source={require('../assets/appAssets/trashcan.png')} />
         </Pressable>
       </View>

@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image, Pressable, FlatList, Text } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Header from './components/Header';
 import TransactionInput from './components/TransactionInput';
@@ -17,8 +17,8 @@ import uuid from 'react-native-uuid';
 //✅ set the date for the transaction in the format of dd/mm/yyyy with the date picker or component
 //✅ COMMIT the code to github
 
-// show the economic status of the user. red if the user is in debt, green if the user is in profit
-// COMMIT the code to github
+//✅ show the economic status of the user. red if the user is in debt, green if the user is in profit
+//✅ COMMIT the code to github
 
 // alerts for the user to enter the amount and the description when empty show alert
 // COMMIT the code to github
@@ -27,9 +27,9 @@ import uuid from 'react-native-uuid';
 // COMMIT the code to github
 
 // ******* if its possible when the user slide the item to the left show the edit and delete button
-// add the delete button to the transaction item
+//✅ add the delete button to the transaction item
 // add the edit button to the transaction item
-// COMMIT the code to github
+//✅ COMMIT the code to github
 
 // make the item a pressble when pressed show the info of the transaction
 // COMMIT the code to github
@@ -44,8 +44,25 @@ export default function App() {
   const [showModalTransaction, setshowModalTransaction] = useState(false);
   const [totalBalance, setTotalBalance] = useState(0);
 
+  // update the total balance when the user delete a transaction using useEffect
+  useEffect(() => {
+    if (transactions.length > 0) {
+      let total = 0;
+      transactions.forEach(transaction => {
+        if (transaction.type === 'Income') {
+          total += transaction.amount;
+        } else {
+          total -= transaction.amount;
+        }
+      });
+      setTotalBalance(total);
+    } else {
+      setTotalBalance(0);
+    }
+  }, [transactions]);
+
+
   const transactionObject = {
-    id: uuid.v4(),
     description: '',
     amount: 0,
     date: '',
@@ -53,14 +70,17 @@ export default function App() {
   }
 
   const addTransaction = (transaction) => {
-    transactionObject.id = uuid.v4();
     transactionObject.description = transaction.description;
     transactionObject.amount = transaction.amount;
     transactionObject.date = transaction.date;
     transactionObject.type = transaction.type;
 
-    setTransactions([...transactions, transactionObj]);
+    setTransactions(() => [...transactions, { id: uuid.v4(), ...transactionObj }]);
     setshowModalTransaction(false);
+  }
+
+  const deleteTransaction = (id) => {
+    setTransactions(() => transactions.filter((transaction) => transaction.id !== id));
   }
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
@@ -73,16 +93,18 @@ export default function App() {
       <View style={styles.body}>
         <View style={styles.economicBalanceBox} >
           <Image source={require('./assets/appAssets/balance.png')} style={styles.balance} />
-          <Text style={styles.economicBalanceText}>Economic Balance: {totalBalance}</Text>
+          {totalBalance < 0 ? <Text style={styles.balanceTextRed}>{totalBalance} €</Text> : <Text style={styles.balanceTextGreen}>{totalBalance} €</Text>}
         </View>
         <FlatList
           data={transactions}
           renderItem={(transactionData) => {
+            console.log(transactionData.item)
             return <TransactionItem
-              transactionObj={transactionObj}
+              transactionId={transactionData.item.id}
               description={transactionData.item.description}
               amount={transactionData.item.amount}
               date={transactionData.item.date}
+              onTransactionRemove={deleteTransaction}
             />
           }}
         >
@@ -100,7 +122,6 @@ export default function App() {
 
           totalBalance={totalBalance}
           setTotalBalance={setTotalBalance}
-
         />
         <Pressable style={styles.buttonStyle} onPress={() => setshowModalTransaction(true)} >
           <Image style={styles.buttonImage} source={require('./assets/appAssets/addButton.png')} />
@@ -123,7 +144,6 @@ const styles = StyleSheet.create({
     flex: 7,
     width: '100%',
     padding: 10,
-    borderWidth: 1,
   },
   footer: {
     flexDirection: 'column',
@@ -150,13 +170,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     padding: 15,
-    borderWidth: 1,
     marginBottom: 10,
   },
   balance: {
     width: 30,
     height: 30,
-    paddingRight: 10,
+    marginRight: 10,
+  },
+  balanceTextRed: {
+    color: 'red',
+    fontSize: 20,
+  },
+  balanceTextGreen: {
+    color: 'green',
+    fontSize: 20,
   },
   economicBalanceText: {
     fontSize: 17,
