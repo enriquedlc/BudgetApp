@@ -57,13 +57,13 @@ export default function App() {
     transactionObject.date = transaction.date;
     transactionObject.type = transaction.type;
 
-    setTransactions(() => [...transactions, {id: uuid.v4(), ...transactionObj}]);
+    setTransactions(() => [...transactions, { id: uuid.v4(), ...transactionObj }]);
     setshowModalTransaction(false);
   }
 
-  // const deleteTransaction = (id) => {
-  //   setTransactions(() => transactions.filter((transaction) => transaction.id !== id));
-  // }
+  const deleteTransaction = (id) => {
+    setTransactions(() => transactions.filter((transaction) => transaction.id !== id));
+  }
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
 
@@ -75,7 +75,7 @@ export default function App() {
       <View style={styles.body}>
         <View style={styles.economicBalanceBox} >
           <Image source={require('./assets/appAssets/balance.png')} style={styles.balance} />
-          { totalBalance < 0 ? <Text style={styles.balanceTextRed}>{totalBalance} €</Text> : <Text style={styles.balanceTextGreen}>{totalBalance} €</Text> }
+          {totalBalance < 0 ? <Text style={styles.balanceTextRed}>{totalBalance} €</Text> : <Text style={styles.balanceTextGreen}>{totalBalance} €</Text>}
         </View>
         <FlatList
           data={transactions}
