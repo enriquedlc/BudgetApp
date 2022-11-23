@@ -109,7 +109,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
 
               <DatePicker
                 mode="calendar"
-                // {onSelectedChange={selectedDate => setSelectedDate(selectedDate)}}
+                onSelectedChange={selectedDate => setSelectedDate(selectedDate)}
                 onDateChange={changeDateTransactionHandler}
                 value={transactionObj.date}
                 style={{ width: 320, height: 300, borderRadius: 10 }}

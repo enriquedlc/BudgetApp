@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { Image, View, Pressable, Text, StyleSheet } from 'react-native'
 
-const TransactionItem = ({ transactionId, description, amount, type, onTransactionRemove }) => {
+const TransactionItem = ({ transactionId, description, amount, type, onTransactionRemove, showModalTransaction, setshowModalTransaction }) => {
 
   return (
     <View style={styles.container}>
       <View style={styles.transactionDesc}>
         <Text style={styles.descriptionText}>Description: {description}</Text>
-        {type === "Income" ?   <Text style={styles.amountTextIncome}>Amount: +{amount}</Text> : <Text style={styles.amountTextExpense}>Amount: -{amount}</Text>}
+        {type === "Income" ? <Text style={styles.amountTextIncome}>Amount: +{amount}</Text> : <Text style={styles.amountTextExpense}>Amount: -{amount}</Text>}
       </View>
       <View style={styles.buttonContainerEdit}>
         <Pressable>

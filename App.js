@@ -75,13 +75,15 @@ export default function App() {
     transactionObject.date = transaction.date;
     transactionObject.type = transaction.type;
 
-    setTransactions(() => [...transactions, { id: uuid.v4(), ...transactionObj }]);
+    setTransactions(() => [ { id: uuid.v4(), ...transactionObj }, ...transactions]);
     setshowModalTransaction(false);
   }
 
   const deleteTransaction = (id) => {
     setTransactions(() => transactions.filter((transaction) => transaction.id !== id));
   }
+
+
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
 
