@@ -45,7 +45,6 @@ export default function App() {
   const [totalBalance, setTotalBalance] = useState(0);
 
   const transactionObject = {
-    id: uuid.v4(),
     description: '',
     amount: 0,
     date: '',
@@ -53,15 +52,18 @@ export default function App() {
   }
 
   const addTransaction = (transaction) => {
-    transactionObject.id = uuid.v4();
     transactionObject.description = transaction.description;
     transactionObject.amount = transaction.amount;
     transactionObject.date = transaction.date;
     transactionObject.type = transaction.type;
 
-    setTransactions([...transactions, transactionObj]);
+    setTransactions(() => [...transactions, {id: uuid.v4(), ...transactionObj}]);
     setshowModalTransaction(false);
   }
+
+  // const deleteTransaction = (id) => {
+  //   setTransactions(() => transactions.filter((transaction) => transaction.id !== id));
+  // }
 
   const [transactionObj, setTransactionObj] = useState(transactionObject);
 
@@ -73,16 +75,18 @@ export default function App() {
       <View style={styles.body}>
         <View style={styles.economicBalanceBox} >
           <Image source={require('./assets/appAssets/balance.png')} style={styles.balance} />
-          <Text style={styles.economicBalanceText}>Economic Balance: {totalBalance}</Text>
+          { totalBalance < 0 ? <Text style={styles.balanceTextRed}>{totalBalance} €</Text> : <Text style={styles.balanceTextGreen}>{totalBalance} €</Text> }
         </View>
         <FlatList
           data={transactions}
           renderItem={(transactionData) => {
+            console.log(transactionData.item)
             return <TransactionItem
-              transactionObj={transactionObj}
+              transactionId={transactionData.item.id}
               description={transactionData.item.description}
               amount={transactionData.item.amount}
               date={transactionData.item.date}
+              onTransactionRemove={deleteTransaction}
             />
           }}
         >
@@ -100,7 +104,6 @@ export default function App() {
 
           totalBalance={totalBalance}
           setTotalBalance={setTotalBalance}
-
         />
         <Pressable style={styles.buttonStyle} onPress={() => setshowModalTransaction(true)} >
           <Image style={styles.buttonImage} source={require('./assets/appAssets/addButton.png')} />
@@ -123,7 +126,6 @@ const styles = StyleSheet.create({
     flex: 7,
     width: '100%',
     padding: 10,
-    borderWidth: 1,
   },
   footer: {
     flexDirection: 'column',
@@ -150,13 +152,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     padding: 15,
-    borderWidth: 1,
     marginBottom: 10,
   },
   balance: {
     width: 30,
     height: 30,
-    paddingRight: 10,
+    marginRight: 10,
+  },
+  balanceTextRed: {
+    color: 'red',
+    fontSize: 20,
+  },
+  balanceTextGreen: {
+    color: 'green',
+    fontSize: 20,
   },
   economicBalanceText: {
     fontSize: 17,

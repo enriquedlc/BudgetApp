@@ -2,18 +2,7 @@ import React from 'react'
 import { Modal, View, TextInput, Text, StyleSheet, Pressable, Keyboard, TouchableWithoutFeedback, Button } from 'react-native'
 import { useState } from 'react'
 
-import { LinearGradient } from 'expo-linear-gradient'
-import uuid from 'react-native-uuid'
 import DatePicker from 'react-native-modern-datepicker'
-
-// <LinearGradient
-//         colors={['#5851DB', '#C13584', '#E1306C', '#5851DB', 'dark-blue']}
-//         style={styles.linearGradient}
-//         start={{ x: 0, y: 0 }}
-//         end={{ x: 1, y: 1 }}
-//       >
-//         <Text>Horizontal Gradient</Text>
-//       </LinearGradient>
 
 const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTransactionAdd, transactionObj, setTransactionObj, totalBalance, setTotalBalance }) => {
 
@@ -38,8 +27,6 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     setTransactionObj({ ...transactionObj, type: 'Expense' })
   }
 
-  // add the income or expense to the total balance
-
   const addIncomeToBalance = () => {
     if (transactionObj.type === 'Income') {
       setTotalBalance(parseFloat(totalBalance + transactionObj.amount))
@@ -56,15 +43,15 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
     if (sanitizedDescription.length === 0 || sanitizedAmount === 0 || sanitizedDate.length === 0 || transactionObj.type === '') {
       return
     }
-    onTransactionAdd(sanitizedDescription, sanitizedAmount, sanitizedDate, transactionObj.type)
+    onTransactionAdd(transactionObj)
     addIncomeToBalance()
-    setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: '', type: '' })
+    setTransactionObj({ description: '', amount: '', date: '', type: '' })
     setshowModalTransaction(false)
   }
 
   const cancelModalTransaction = () => {
     setshowModalTransaction(!showModalTransaction)
-    setTransactionObj({ id: uuid.v4(), description: '', amount: '', date: '', type: '' })
+    setTransactionObj({ description: '', amount: '', date: '', type: '' })
   }
 
   // date picker
@@ -122,7 +109,7 @@ const TransactionInput = ({ setshowModalTransaction, showModalTransaction, onTra
 
               <DatePicker
                 mode="calendar"
-                onSelectedChange={selectedDate => setSelectedDate(selectedDate)}
+                // {onSelectedChange={selectedDate => setSelectedDate(selectedDate)}}
                 onDateChange={changeDateTransactionHandler}
                 value={transactionObj.date}
                 style={{ width: 320, height: 300, borderRadius: 10 }}
@@ -168,6 +155,7 @@ const styles = StyleSheet.create({
     width: '80%',
     borderColor: 'black',
     borderWidth: 1,
+    borderRadius: 7,
     padding: 10,
     marginBottom: 10,
   },
