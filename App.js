@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Image, Pressable, FlatList, Text } from 'react-native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Header from './components/Header';
 import TransactionInput from './components/TransactionInput';
@@ -17,8 +17,8 @@ import uuid from 'react-native-uuid';
 //✅ set the date for the transaction in the format of dd/mm/yyyy with the date picker or component
 //✅ COMMIT the code to github
 
-// show the economic status of the user. red if the user is in debt, green if the user is in profit
-// COMMIT the code to github
+//✅ show the economic status of the user. red if the user is in debt, green if the user is in profit
+//✅ COMMIT the code to github
 
 // alerts for the user to enter the amount and the description when empty show alert
 // COMMIT the code to github
@@ -27,9 +27,9 @@ import uuid from 'react-native-uuid';
 // COMMIT the code to github
 
 // ******* if its possible when the user slide the item to the left show the edit and delete button
-// add the delete button to the transaction item
+//✅ add the delete button to the transaction item
 // add the edit button to the transaction item
-// COMMIT the code to github
+//✅ COMMIT the code to github
 
 // make the item a pressble when pressed show the info of the transaction
 // COMMIT the code to github
@@ -43,6 +43,24 @@ export default function App() {
   const [transactions, setTransactions] = useState([]);
   const [showModalTransaction, setshowModalTransaction] = useState(false);
   const [totalBalance, setTotalBalance] = useState(0);
+
+  // update the total balance when the user delete a transaction using useEffect
+  useEffect(() => {
+    if (transactions.length > 0) {
+      let total = 0;
+      transactions.forEach(transaction => {
+        if (transaction.type === 'Income') {
+          total += transaction.amount;
+        } else {
+          total -= transaction.amount;
+        }
+      });
+      setTotalBalance(total);
+    } else {
+      setTotalBalance(0);
+    }
+  }, [transactions]);
+
 
   const transactionObject = {
     description: '',
